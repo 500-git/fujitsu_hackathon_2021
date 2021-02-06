@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script><!--vueインストール用-->
+</head>
+<body>
+    <div class = "login"><!--下記loginのVueを使う-->
+        <!--UserNameを入力する、keyupの時に入力された文字列をloginのusernameを更新する、enterを押した時にusername+pwでログインする-->
+        <input type="text" v-model.trim.lazy = "username" @keyup.enter = "submitusername()">
+        <input type="text" v-model.trim.lazy = "password" @keyup.enter = "submitusername()">
+        <div>
+            <!--ボタンを押す時にログイン-->
+            <button @click = "submitusername()">Login</button>
+        </div>
+        <div>
+            <p v-if = "(Isauthorized)&&(IsSubmit)">login successful,please wait...</p>
+            <p v-else-if = "(!Isauthorized)&&(IsSubmit)">login failed</p>
+        </div>
+    </div>
+  
+    <script>
+        //jsに入れてもOKと思う、Vueを使ってlogin処理を追加する
+        new Vue({
+            el:".login",//Vue実体名
+            data:{
+                username:"",//初期値は無
+                password:"",
+                Isauthorized:false,
+                IsSubmit:false
+            },
+            methods:{
+                //login処理
+                submitusername:function(){
+                    this.IsSubmit = true;
+                    alert(this.username + " "+ this.password +" has been submit");//実際の時にバックエンドに渡してください
+                    this.Isauthorized = !this.Isauthorized//テスト用,実際はバックエンドからの戻り値
+                }            
+            }
+
+        })
+    </script>
+    
+</body>
+</html>
