@@ -1,3 +1,28 @@
+$(document).ready(async function(){
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyBmO4dLGt5aasYgt9iIcnadjE21Hfw8RCE",
+        authDomain: "recommend-app-c2184.firebaseapp.com",
+        projectId: "recommend-app-c2184",
+        storageBucket: "recommend-app-c2184.appspot.com",
+        messagingSenderId: "630278469111",
+        appId: "1:630278469111:web:04d2046960c64b4c432af2",
+        measurementId: "G-8PSJ51KHDJ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    //   firebase.analytics();
+    var db = firebase.firestore();
+
+    db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt3");
+    
+//===================DB setting above===================
+});
+
+
+
+
+
 	var previous_path = new Array();
 
 	var chosen = new Array();
@@ -31,7 +56,6 @@
 		}			
 		//console.log(total);		
 	}
-	
 
 	function getQueryVariable(variable)
 	{
@@ -50,16 +74,22 @@
 	function Next(){
 		if(count==NaN||count==false){
 			window.location = "test.html?id=2";	
+			
+			db.collection("users").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt2");
+			
 		}
-		else{
-			if (count<2){			
-				count = parseInt(count)+1;
-				window.location = "test.html?id="+count;
-			}
-			else
-			{
-				window.location = "end.html";
-			}	
+		else
+		{
+		if (count<2){			
+			count = parseInt(count)+1;
+			window.location = "test.html?id="+count;
+				
+			db.collection("users").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt3");
+		}
+		else
+		{
+			window.location = "end.html";
+		}	
 		}	
 	}
-	
+
