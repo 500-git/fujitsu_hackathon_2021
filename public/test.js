@@ -44,7 +44,7 @@ $(document).ready(async function(){
 			else 
 			{
 				previous_path[0] = v1[0].src;
-				v1[0].src = "../images/lgton.jpg";
+				v1[0].src = "./images/lgton.png";
 				chosen[0] = previous_path[0].substr(-6, 2);
 			}
 		});
@@ -59,7 +59,7 @@ $(document).ready(async function(){
 			else 
 			{
 				previous_path[1] = v2[0].src;
-				v2[0].src = "../images/lgton.jpg";
+				v2[0].src = "./images/lgton.png";
 				chosen[1] = previous_path[1].substr(-6, 2);
 			}
 		});
@@ -74,7 +74,7 @@ $(document).ready(async function(){
 			else 
 			{
 				previous_path[2] = v3[0].src;
-				v3[0].src = "../images/lgton.jpg";
+				v3[0].src = "./images/lgton.png";
 				chosen[2] = previous_path[2].substr(-6, 2);
 			}
 		});
@@ -89,52 +89,33 @@ $(document).ready(async function(){
 			else 
 			{
 				previous_path[3] = v4[0].src;
-				v4[0].src = "../images/lgton.jpg";
+				v4[0].src = "./images/lgton.png";
 				chosen[3] = previous_path[3].substr(-6, 2);
 			}
 		});
 
+	$("#home").on("click", ()=>{window.location="./main_page.html"})
 
-	$("#showr").on("click", ()=>{
 
-		//var num = new Array();
-		//console.log(chosen);
-
-		//var ct = 0;
-
-		//console.log(last);
-		//console.log(ct);
-	
+	$("#next_btn").on("click", ()=>{
 		var last ="";
 
 		for(var i=0;i<4;i++){		
 			if(chosen[i]!=0){
-
-				last += chosen[i]+"%";
-				//ct ++;
-
+				last += chosen[i]+"%";				
 			}
 		}
 
-
-
 		if(count<2){
-
 			window.location="test.html?id=2&q="+last;
-
 		}
 		else{
 			var q_val = getQueryVariable("q");
-
 			q_val += last;
-
 			var res = q_val.split("%");
 
-		}
-		//console.log(q_val);
-		//console.log(res);
 
-		db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set({likelist:res.slice(0,-1)})
+			db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set({likelist:res.slice(0,-1)})
 		//db.collection("user").add({likelist:num})
 		// 成功
 		.then(function(docRef) {
@@ -145,8 +126,13 @@ $(document).ready(async function(){
 		.catch(function(error) {
 			console.error("Error adding document: ", error);
 		});
+		setTimeout(()=>{window.location="./end.html"},2000);
+		}
+		//console.log(q_val);
+		//console.log(res);
 
-	});
+	}
+	);
 
 
 
@@ -168,38 +154,8 @@ $(document).ready(async function(){
 	console.log(count);
 	$("#process").html(count+"/2")
 
-	function jump(count){
-
-		if(count<2){
-				window.location = "test.html?id=2";
-			}
-		else
-			{
-				window.location = "end.html";
-			}
-
+	function jump(){
+		window.location = "end.html";
 	}
-
-    $("#next_btn").on('click',function(){
-
-		
-
-		db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set(test1)
-		// 成功
-		.then(function(docRef) {
-			// window.location.href = 'パス名'; // 通常の遷移
-			console.log("Document written");
-		})
-		// 例外
-		.catch(function(error) {
-			console.error("Error adding document: ", error);
-		});
-
-		setTimeout(jump(count),3000);
-		
-
-    } );
-	 
-
 
 });
