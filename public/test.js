@@ -14,82 +14,192 @@ $(document).ready(async function(){
     //   firebase.analytics();
     var db = firebase.firestore();
 
-    db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt3");
-    
+    //const auth = firebase.auth();
+
 //===================DB setting above===================
-});
-
-
-
-
 
 	var previous_path = new Array();
 
-	var chosen = new Array();
+	var chosen = [0,0,0,0];
 
-	function chooseImg(id,src){
-
-		element = document.getElementById(id)
-		if (element.src.match("lgton"))
+		//get query val.
+		function getQueryVariable(variable)
 		{
-			element.src = previous_path[id];
-			chosen[id.slice(3)] = 0;			
-		} 
-		else 
-		{
-			previous_path[id] = src;
-			element.src = "../images/lgton.jpg";
-			chosen[id.slice(3)] = 1;
+			var query = window.location.search.substring(1);
+			var vars = query.split("&");
+			for (var i=0;i<vars.length;i++) {
+				var pair = vars[i].split("=");
+				if(pair[0] == variable){return pair[1];}
+			}
+			return(false);
 		}
-	 }
 
-	function show(){
-		var total;
-		total = "";			
-		for (var i=0;i<=chosen.length;i++){
-			if (chosen[i] == 1){
-			total += String(i);			
-			}			
+	 	const v1 = $("#pic1");
+		$(v1).on('click',async () => {
+			if (v1[0].src.match("lgton"))
+			{
+				v1[0].src = previous_path[0];
+				chosen[0] = 0;			
+			} 
+			else 
+			{
+				previous_path[0] = v1[0].src;
+				v1[0].src = "../images/lgton.jpg";
+				chosen[0] = previous_path[0].substr(-6, 2);
+			}
+		});
+
+		const v2 = $("#pic2");
+		$(v2).on('click',async () => {
+			if (v2[0].src.match("lgton"))
+			{
+				v2[0].src = previous_path[1];
+				chosen[1] = 0;			
+			} 
+			else 
+			{
+				previous_path[1] = v2[0].src;
+				v2[0].src = "../images/lgton.jpg";
+				chosen[1] = previous_path[1].substr(-6, 2);
+			}
+		});
+
+		const v3 = $("#pic3");
+		$(v3).on('click',async () => {
+			if (v3[0].src.match("lgton"))
+			{
+				v3[0].src = previous_path[2];
+				chosen[2] = 0;			
+			} 
+			else 
+			{
+				previous_path[2] = v3[0].src;
+				v3[0].src = "../images/lgton.jpg";
+				chosen[2] = previous_path[2].substr(-6, 2);
+			}
+		});
+
+		const v4 = $("#pic4");
+		$(v4).on('click',async () => {
+			if (v4[0].src.match("lgton"))
+			{
+				v4[0].src = previous_path[3];
+				chosen[3] = 0;			
+			} 
+			else 
+			{
+				previous_path[3] = v4[0].src;
+				v4[0].src = "../images/lgton.jpg";
+				chosen[3] = previous_path[3].substr(-6, 2);
+			}
+		});
+
+
+	$("#showr").on("click", ()=>{
+
+		//var num = new Array();
+		//console.log(chosen);
+
+		//var ct = 0;
+
+		//console.log(last);
+		//console.log(ct);
+	
+		var last ="";
+
+		for(var i=0;i<4;i++){		
+			if(chosen[i]!=0){
+
+				last += chosen[i]+"%";
+				//ct ++;
+
+			}
 		}
-		if (total != ""){
-			alert(total);			
-		}			
-		//console.log(total);		
-	}
-
-	function getQueryVariable(variable)
-	{
-	    var query = window.location.search.substring(1);
-	    var vars = query.split("&");
-	    for (var i=0;i<vars.length;i++) {
-	        var pair = vars[i].split("=");
-	        if(pair[0] == variable){return pair[1];}
-	    }
-	    return(false);
-	}
 
 
+
+		if(count<2){
+
+			window.location="test.html?id=2&q="+last;
+
+		}
+		else{
+			var q_val = getQueryVariable("q");
+
+			q_val += last;
+
+			var res = q_val.split("%");
+
+		}
+		//console.log(q_val);
+		//console.log(res);
+
+		db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set({likelist:res.slice(0,-1)})
+		//db.collection("user").add({likelist:num})
+		// 成功
+		.then(function(docRef) {
+			// window.location.href = 'パス名'; // 通常の遷移
+			console.log("Document written");
+		})
+		// 例外
+		.catch(function(error) {
+			console.error("Error adding document: ", error);
+		});
+
+	});
+
+
+
+	//recent page num.
 	var count = getQueryVariable("id");
 
-	function Next(){
-		if(count==NaN||count==false){
-			window.location = "test.html?id=2";	
-			
-			db.collection("users").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt2");
-			
-		}
-		else
+
+	//show pic in order
+	for(var i=0;i<4;i++){
+		if(count==1){
+			document.getElementById("pic"+String(i+1)).src = "./images/0"+(i+1)+".jpg";
+		}else
 		{
-		if (count<2){			
-			count = parseInt(count)+1;
-			window.location = "test.html?id="+count;
-				
-			db.collection("users").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set("shirt3");
-		}
+			document.getElementById("pic"+String(i+1)).src = "./images/0"+(i+5)+".jpg";			
+		}			
+	}    
+
+
+	console.log(count);
+	$("#process").html(count+"/2")
+
+	function jump(count){
+
+		if(count<2){
+				window.location = "test.html?id=2";
+			}
 		else
-		{
-			window.location = "end.html";
-		}	
-		}	
+			{
+				window.location = "end.html";
+			}
+
 	}
 
+    $("#next_btn").on('click',function(){
+
+		
+
+		db.collection("user").doc("aHmJnWcgapfKo1HyFU0bjh0cc0J2").set(test1)
+		// 成功
+		.then(function(docRef) {
+			// window.location.href = 'パス名'; // 通常の遷移
+			console.log("Document written");
+		})
+		// 例外
+		.catch(function(error) {
+			console.error("Error adding document: ", error);
+		});
+
+		setTimeout(jump(count),3000);
+		
+
+    } );
+	 
+
+
+});
